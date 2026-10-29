@@ -13,8 +13,8 @@ METRICS = {"cosine": ("<=>", "1 - dist"), "inner_product": ("<#>", "-dist"), "l2
 
 
 async def vector_candidates(query: str, k: int, cfg: RetrievalConfig, user_id: UUID, llm: LLM, ledger: Ledger,
-                            document_ids=None, metadata=None) -> list[dict]:
-    qv = (await llm.embed([query], purpose="embed_query", ledger=ledger))[0]
+                            document_ids=None, metadata=None, qvec: list[float] | None = None) -> list[dict]:
+    qv = qvec or (await llm.embed([query], purpose="embed_query", ledger=ledger))[0]
     op, score = METRICS[cfg.similarity]
     where, params = doc_filter_sql(document_ids, metadata)
     async with user_tx(user_id) as conn:

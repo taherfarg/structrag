@@ -234,6 +234,9 @@ async def _execute(run_id: UUID, user_id: UUID, llm: LLM, seed: int) -> dict:
                 m |= retrieval_metrics(r.retrieval.ranked_sections, gold_ids[q["id"]], ancestors, KS)
                 m["evidence_tokens"] = float(sum(e.token_count for e in r.retrieval.evidence))
                 m["invalid_route_ids"] = float(r.retrieval.trace.get("invalid_ids", 0)) if mode != "vector" else None
+                if "ranked_sections_document_order" in r.retrieval.trace:  # paired counterfactual, same routing
+                    m |= {f"docorder_{k}": v for k, v in retrieval_metrics(
+                        r.retrieval.trace["ranked_sections_document_order"], gold_ids[q["id"]], ancestors, KS).items()}
             if r.answer is not None:
                 a = r.answer
                 verdicts = [v.model_dump() for v in a.verification] if a.verification is not None else None

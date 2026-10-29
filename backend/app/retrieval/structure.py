@@ -10,6 +10,7 @@ it returns is checked against the labels shown in that same prompt; anything
 else is dropped and counted as invalid.
 """
 
+import asyncio
 import re
 import time
 from dataclasses import dataclass, field
@@ -18,7 +19,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field
 
 from ..config import RetrievalConfig, get_settings
-from ..db import user_tx
+from ..db import user_tx, vec
 from ..ingest.structure import count_tokens
 from ..llm import LLM, Ledger
 from .common import (Evidence, RetrievalResult, RoutingFailed, chunks_for_sections, doc_filter_sql,
@@ -285,6 +286,38 @@ async def structure_candidates(user_id: UUID, outline: Outline, selected: list[s
     return out
 
 
+async def chunk_similarity(user_id: UUID, groups: list[list[Evidence]], qvec: list[float]) -> dict[str, float]:
+    ids = [e.chunk_id for g in groups for e in g]
+    if not ids:
+        return {}
+    async with user_tx(user_id) as conn:
+        rows = await (await conn.execute("select id, 1 - (embedding <=> %s::vector) as sim from chunks "
+                                         "where id = any(%s)", (vec(qvec), ids))).fetchall()
+    return {r["id"]: float(r["sim"]) for r in rows}
+
+
+def order_by_relevance(groups: list[list[Evidence]], sims: dict[str, float]) -> list[list[Evidence]]:
+    """Within each selected section, most query-similar chunks first; a parent-intro chunk stays on top.
+    Sections keep the router's order: the router still decides *where*, similarity only *what first*."""
+    out = []
+    for g in groups:
+        head = [e for e in g if e.provenance.get("role") == "parent_context"]
+        rest = sorted((e for e in g if e not in head), key=lambda e: -sims.get(e.chunk_id, -1.0))
+        for e in rest:
+            e.provenance["similarity"] = round(sims.get(e.chunk_id, float("nan")), 4)
+        out.append(head + rest)
+    return out
+
+
+def assemble(groups: list[list[Evidence]], budget: int) -> list[Evidence]:
+    """Fill the budget fairly across sections (round robin), then present each section contiguously."""
+    kept = {id(e) for e in fit_budget(round_robin(groups), budget)}
+    evidence = [e for g in groups for e in g if id(e) in kept]
+    for i, e in enumerate(evidence, 1):
+        e.rank = i
+    return evidence
+
+
 def round_robin(groups: list[list[Evidence]]) -> list[Evidence]:
     """Interleave groups so every selected section gets early ranks."""
     out, i = [], 0
@@ -298,9 +331,14 @@ async def retrieve_structure(query: str, cfg: RetrievalConfig, user_id: UUID, ll
                              document_ids=None, metadata=None) -> RetrievalResult:
     t0 = time.perf_counter()
     outline = await load_outline(user_id, document_ids, metadata)
+    # Embed alongside routing, so relevance ordering adds no latency of its own.
+    qvec_task = (asyncio.create_task(llm.embed([query], purpose="embed_query", ledger=ledger))
+                if cfg.structure_order == "relevance" else None)
     try:
         selected, trace = await route(query, cfg, outline, llm, ledger)
     except RoutingFailed as e:
+        if qvec_task:
+            qvec_task.cancel()
         if cfg.structure_fallback != "vector":
             raise
         from .vector import retrieve_vector
@@ -312,11 +350,14 @@ async def retrieve_structure(query: str, cfg: RetrievalConfig, user_id: UUID, ll
                                       "trace": {**e.trace, "fallback": "vector", "fallback_reason": str(e)},
                                       "usage": ledger.totals()})
     groups = await structure_candidates(user_id, outline, selected, cfg)
-    kept = {id(e) for e in fit_budget(round_robin(groups), cfg.context_token_budget)}
-    # Present each section's kept chunks contiguously, sections in router order.
-    evidence = [e for g in groups for e in g if id(e) in kept]
-    for i, e in enumerate(evidence, 1):
-        e.rank = i
+    evidence = assemble(groups, cfg.context_token_budget)
+    if qvec_task:
+        # Same routing decision, both orders: the benchmark scores the document-order ranking too,
+        # so the effect of ordering is measured free of run-to-run routing noise.
+        trace["ranked_sections_document_order"] = ranked_sections(evidence)
+        groups = order_by_relevance(groups, await chunk_similarity(user_id, groups, (await qvec_task)[0]))
+        evidence = assemble(groups, cfg.context_token_budget)
+    trace["order"] = cfg.structure_order
     trace["no_relevant_sections"] = not selected
     trace["dropped_for_budget"] = sum(len(g) for g in groups) - len(evidence)
     return RetrievalResult(mode="structure", query=query, evidence=evidence, ranked_sections=ranked_sections(evidence),

@@ -16,6 +16,8 @@ const GROUPS: { title: string; fields: Field[] }[] = [
     { key: "doc_select_max", label: "Documents before pre-selection" },
     { key: "max_selected_sections", label: "Max selected sections" },
     { key: "include_parent_intro", label: "Include parent intro" },
+    { key: "structure_order", label: "Chunk order inside a section", options: ["document", "relevance"],
+      help: "relevance sorts each selected section's chunks by query similarity (one extra embedding call)." },
     { key: "structure_fallback", label: "On routing failure", options: ["none", "vector"], help: "Fallback results are labelled fallback_vector." },
   ] },
   { title: "Hybrid fusion", fields: [

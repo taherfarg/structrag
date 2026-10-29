@@ -65,6 +65,8 @@ class RetrievalConfig(BaseModel):
     doc_select_max: int = Field(5, ge=1, le=100)
     max_selected_sections: int = Field(6, ge=1, le=50)
     include_parent_intro: bool = False
+    # Order of chunks inside a selected section's subtree: reading order, or by query similarity.
+    structure_order: Literal["document", "relevance"] = "document"
     structure_fallback: Literal["none", "vector"] = "none"
 
     # hybrid

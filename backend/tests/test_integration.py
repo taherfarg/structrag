@@ -224,3 +224,25 @@ def test_billing_error_aborts_the_run(client, alice, manual):
         client.fake.fail_status = None
     run = client.get(f"/api/benchmarks/{run_id}", headers=auth(alice)).json()
     assert run["status"] == "failed" and "aborted" in run["error"]
+
+
+def test_structure_relevance_order_within_selected_section(client, alice, manual):
+    import re
+
+    def pick_engine(prompt):
+        label = re.search(r"\[(S\d+)\] Engine ", prompt).group(1)
+        return {"selected_section_ids": [label], "confidence": 0.9, "reason": "engine"}
+
+    client.fake.router = pick_engine
+    body = {"query": "warranty coverage years"}
+    doc = client.post("/api/retrieve/structure", headers=auth(alice), json=body).json()
+    rel = client.post("/api/retrieve/structure", headers=auth(alice),
+                      json={**body, "config": {"structure_order": "relevance"}}).json()
+    client.fake.router = None
+    assert [e["heading_path"] for e in doc["evidence"]] == [["Engine"], ["Engine", "Warranty"]]
+    assert [e["heading_path"] for e in rel["evidence"]] == [["Engine", "Warranty"], ["Engine"]]
+    assert rel["trace"]["ranked_sections_document_order"] == doc["ranked_sections"]
+    assert "similarity" in rel["evidence"][0]["provenance"]
+    hyb = client.post("/api/retrieve/hybrid", headers=auth(alice),
+                      json={**body, "config": {"structure_order": "relevance"}}).json()
+    assert hyb["usage"]["by_purpose"]["embed_query"]["calls"] == 1  # one embedding shared by both sides

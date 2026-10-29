@@ -14,7 +14,8 @@ from uuid import UUID
 from ..config import RetrievalConfig
 from ..llm import Call, LLM, Ledger
 from .common import Evidence, RetrievalResult, RoutingFailed, fit_budget, ranked_sections, to_evidence
-from .structure import load_outline, round_robin, route, structure_candidates
+from .structure import (chunk_similarity, load_outline, order_by_relevance, round_robin, route,
+                        structure_candidates)
 from .vector import vector_candidates
 
 
@@ -61,6 +62,9 @@ async def retrieve_hybrid(query: str, cfg: RetrievalConfig, user_id: UUID, llm: 
                           document_ids=None, metadata=None) -> RetrievalResult:
     t0 = time.perf_counter()
     trace: dict = {"weights": {"structure": cfg.weight_structure, "vector": cfg.weight_vector}, "rrf_k": cfg.rrf_k}
+    # One query embedding, started now and shared by the vector side and relevance ordering.
+    qvec_task = (asyncio.create_task(llm.embed([query], purpose="embed_query", ledger=ledger))
+                if cfg.weight_vector or cfg.structure_order == "relevance" else None)
 
     async def structure_side() -> list[Evidence]:
         if cfg.weight_structure == 0:
@@ -73,12 +77,16 @@ async def retrieve_hybrid(query: str, cfg: RetrievalConfig, user_id: UUID, llm: 
             rtrace = e.trace
             selected = []
         trace["routing"] = rtrace
-        return round_robin(await structure_candidates(user_id, outline, selected, cfg))
+        groups = await structure_candidates(user_id, outline, selected, cfg)
+        if cfg.structure_order == "relevance":
+            groups = order_by_relevance(groups, await chunk_similarity(user_id, groups, (await qvec_task)[0]))
+        return round_robin(groups)
 
     async def vector_side() -> list[Evidence]:
         if cfg.weight_vector == 0:
             return []
-        rows = await vector_candidates(query, cfg.vector_candidates, cfg, user_id, llm, ledger, document_ids, metadata)
+        rows = await vector_candidates(query, cfg.vector_candidates, cfg, user_id, llm, ledger, document_ids, metadata,
+                                       qvec=(await qvec_task)[0])
         return [to_evidence(r, score=float(r["score"])) for r in rows]
 
     s_items, v_items = await asyncio.gather(structure_side(), vector_side())
