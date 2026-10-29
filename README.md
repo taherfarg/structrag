@@ -17,6 +17,53 @@ fine-tuned router or its published results.
 Design and trade-offs: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 Evaluation corpus and how to run a benchmark: [eval/README.md](eval/README.md).
 
+## Results
+
+First benchmark, 2026-10-29: 53 questions over 4 documents. Every mode gets the same 1,000-token
+context budget and the same Gemini answer model. Full method, caveats and raw records:
+[eval/README.md](eval/README.md).
+
+![Benchmark: vector vs structure vs hybrid](docs/screenshots/benchmark-three-modes.png)
+
+| | vector | structure | hybrid |
+|---|---|---|---|
+| Hit@1 (right section ranked first) | 0.74 | 0.64 | **0.81** |
+| Hit@3 | 0.85 | 0.83 | **0.98** |
+| MRR | 0.81 | 0.76 | **0.89** |
+| Answer correctness (LLM-judged) | 0.93 | 0.98 | **0.99** |
+| End-to-end latency, p50 | **1.8 s** | 3.1 s | 3.4 s |
+| Cost per query | **$0.00056** | $0.00156 | $0.00187 |
+
+- **Vector** is cheapest and fastest. It misses questions whose key identifier appears only in a
+  parent heading: three service-bulletin questions, where it returned the wrong bulletin's
+  "Repair" section and correctly said it could not answer.
+- **Structure** routing found the right sections (Recall@5 0.99) but ranked them in reading order.
+- **Hybrid** retrieved best overall, at about 3.4× the cost of vector.
+- Every claim every mode made was supported by the evidence it cited.
+
+### Follow-up: relevance order inside routed sections
+
+Setting `structure_order: "relevance"` lets the router choose sections, then sorts each section's
+chunks by query similarity. Measured on the *same* routing decisions, structure-mode MRR went from
+**0.76 → 0.92** and Hit@1 from **0.64 → 0.87**: 14 questions improved and none got worse. That puts
+structure level with hybrid on ranking, at about 83% of its cost. It is opt-in for now.
+
+![Benchmark with relevance ordering](docs/screenshots/benchmark-relevance-order.png)
+
+These results come from one run on a synthetic corpus built to stress repeated headings,
+graded by an LLM. Treat them as a working comparison, not a general verdict.
+
+## Screenshots
+
+**Playground**: one question, three modes side by side, with citations, provenance, latency and cost.
+Vector ranks two *other* bulletins' Repair sections first; structure goes straight to TSB-2026-014.
+
+![Playground](docs/screenshots/playground.png)
+
+**Structure explorer**: the parsed heading tree with pages, heading source and chunks for each section.
+
+![Structure explorer](docs/screenshots/structure-explorer.png)
+
 ## Layout
 
 ```

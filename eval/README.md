@@ -96,7 +96,7 @@ the 47 answerable questions.
 | Abstention accuracy (all 53) | 0.94 | **1.00** | **1.00** |
 | Faithfulness / citation support | 1.00 | 1.00 | 1.00 |
 | Invalid router ids per query | – | 0.04 | 0 |
-| End-to-end latency p50 / p95 | **1.8 / 2.1 s** | 3.3 / 4.7 s | 3.6 / 4.8 s |
+| End-to-end latency p50 / p95 | **1.8 / 2.1 s** | 3.1 / 4.7 s | 3.4 / 4.8 s |
 | Cost per query (excl. judge) | **$0.00056** | $0.00156 | $0.00187 |
 
 Recall@3 by question type:
