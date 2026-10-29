@@ -40,15 +40,16 @@ Storage; the service-role key never leaves the server.
 | `app/db.py` | Connection pool, `user_tx(user_id)` that applies RLS, `service_tx()` for the worker. |
 | `app/llm.py` | One OpenAI-compatible client for chat + embeddings. Retries (incl. OpenRouter's 200-with-error bodies), JSON-schema output with a tolerant fallback, token + USD accounting into `llm_calls`. |
 | `app/ingest/parse.py` | PDF (PyMuPDF), DOCX (python-docx), Markdown/text → a flat list of `Block`s (heading / paragraph / table) with page + char anchors. |
-| `app/ingest/structure.py` | Blocks → section tree. Heading source priority: PDF outline/bookmarks → explicit styles (DOCX Heading N, `#`) → inferred (font size, numbering like `3.2.1`) → single root section. Records `heading_source` and a parse confidence. |
-| `app/ingest/chunk.py` | Token-bounded chunks that never cross a section boundary. |
+| `app/ingest/structure.py` | Blocks → section tree, and token-bounded chunks that never cross a section boundary. Heading source priority (decided in `parse.py`): PDF outline → explicit styles (DOCX Heading N, `#`) → inferred (font size, numbering like `3.2.1`) → single root section. Records `heading_source` and a parse confidence. |
 | `app/ingest/pipeline.py` | Parse → tree → chunks → embeddings (reusing unchanged ones) → one transaction that swaps the document's sections/chunks. |
 | `app/retrieval/vector.py` | Baseline: embed query, pgvector top-k. Sees only chunk text + embeddings. |
 | `app/retrieval/structure.py` | Coarse-to-fine LLM routing over a compact ToC, id validation, evidence from selected sections. |
 | `app/retrieval/hybrid.py` | Structure + vector candidates → weighted RRF → optional cross-encoder → dedupe → budgeted context. |
 | `app/answer.py` | One grounded answer pipeline for all modes; optional claim-level citation verification. |
 | `app/evaluation/` | Section-level retrieval metrics, LLM-judged answer metrics, benchmark runner, reproducibility manifest. |
+| `app/qa.py` | Retrieve + answer for one mode; shared by the API and the benchmark runner. |
 | `app/api/` | Routers. Typed schemas, one error envelope, JWT auth. |
+| `app/cli.py` | `ingest` a folder and run a `benchmark` without the dashboard. |
 
 ## 3. Database (see `supabase/migrations/`)
 
@@ -63,15 +64,16 @@ chunks         id (stable text), section_id, document_id, owner_id, ordinal, tex
                page, char_start/end, token_count, content_hash,
                embedding vector(1536), embedding_model
 ingest_jobs    id, document_id, owner_id, status, attempts, run_after, error
-eval_datasets  id, owner_id, name, version, content_hash
+eval_datasets  id, owner_id, name, version, corpus text[], content_hash
 eval_queries   id, dataset_id, qid, question, expected_answer, answerable,
                gold jsonb [{doc, path[]}], evidence text[], tags text[]
 benchmark_runs id, owner_id, dataset_id, config jsonb, config_hash, manifest jsonb,
                status, summary jsonb
 benchmark_results run_id, query_id, mode, retrieved jsonb, answer jsonb,
                metrics jsonb, latency/tokens/cost
-llm_calls      owner_id, purpose, model, input/output tokens, cost_usd,
-               latency_ms, run_id, document_id
+llm_calls      owner_id, purpose, model, mode, input/output tokens, cost_usd,
+               latency_ms, ok, run_id, document_id
+query_log      owner_id, mode, query, ok, latencies, tokens, cost   (live traffic analytics)
 user_settings  owner_id, config jsonb
 ```
 

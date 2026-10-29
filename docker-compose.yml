@@ -1,0 +1,22 @@
+# API + dashboard. Supabase (Postgres/pgvector, Auth, Storage) runs separately:
+#   local:      npx supabase start   (this file points at it via host.docker.internal)
+#   hosted:     set DATABASE_URL / SUPABASE_URL / keys in backend/.env and drop the overrides below.
+services:
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:55422/postgres
+      SUPABASE_URL: http://host.docker.internal:55421
+      CORS_ORIGINS: '["http://localhost:8080"]'
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["8000:8000"]
+  web:
+    build:
+      context: ./frontend
+      args:
+        VITE_SUPABASE_URL: http://127.0.0.1:55421
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:?set SUPABASE_PUBLISHABLE_KEY (npx supabase status)}
+        VITE_API_URL: http://localhost:8000
+    ports: ["8080:80"]
+    depends_on: [api]

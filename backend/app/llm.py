@@ -28,7 +28,9 @@ RETRYABLE = {408, 409, 425, 429, 500, 502, 503, 504, 520, 522, 524, 529}
 
 
 class LLMError(RuntimeError):
-    pass
+    def __init__(self, message: str, status: int | None = None):
+        super().__init__(message)
+        self.status = status  # HTTP status when the provider gave one; 401/402/403 mean "stop trying"
 
 
 @dataclass
@@ -103,6 +105,27 @@ def extract_json(text: str) -> Any:
         return json.loads(text[start : end + 1])
 
 
+def provider_schema(model: type[BaseModel]) -> dict:
+    """Pydantic schema in the dialect strict providers accept: closed objects, every property listed
+    as required, no defaults. Validation still goes through pydantic, so defaults apply on our side."""
+
+    def fix(node):
+        if isinstance(node, dict):
+            node.pop("default", None)
+            node.pop("title", None)
+            if node.get("type") == "object" and "properties" in node:
+                node["additionalProperties"] = False
+                node["required"] = list(node["properties"])
+            for v in node.values():
+                fix(v)
+        elif isinstance(node, list):
+            for v in node:
+                fix(v)
+        return node
+
+    return fix(model.model_json_schema())
+
+
 class LLM:
     is_fake = False
 
@@ -144,7 +167,7 @@ class LLM:
                 log.warning("llm %s, attempt %d", last, attempt + 1)
                 continue
             if r.status_code >= 400:
-                raise LLMError(f"HTTP {r.status_code}: {r.text[:500]}")
+                raise LLMError(f"HTTP {r.status_code}: {r.text[:500]}", r.status_code)
             try:
                 data = r.json()
             except ValueError:
@@ -154,7 +177,7 @@ class LLM:
             if err:
                 code = str(err.get("code", "")) if isinstance(err, dict) else ""
                 msg = err.get("message", err) if isinstance(err, dict) else err
-                last = LLMError(f"provider error {code}: {msg}")
+                last = LLMError(f"provider error {code}: {msg}", int(code) if code.isdigit() else None)
                 if code.isdigit() and int(code) in RETRYABLE:
                     log.warning("llm %s, attempt %d", last, attempt + 1)
                     continue
@@ -208,7 +231,7 @@ class LLM:
             "max_tokens": max_tokens,
             "response_format": {
                 "type": "json_schema",
-                "json_schema": {"name": schema.__name__, "schema": schema.model_json_schema()},
+                "json_schema": {"name": schema.__name__, "schema": provider_schema(schema)},
             },
         }
         key = self.s.llm_api_key.get_secret_value()

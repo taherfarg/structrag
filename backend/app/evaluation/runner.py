@@ -28,6 +28,7 @@ from .metrics import aggregate, answer_metrics, retrieval_metrics
 
 log = logging.getLogger(__name__)
 KS = [1, 3, 5, 10]
+FATAL_STATUS = {401, 402, 403}  # credentials or billing: every later call would fail the same way
 PIPELINE_PURPOSES = {"embed_query", "route", "rerank", "answer", "verify"}
 
 
@@ -222,6 +223,11 @@ async def _execute(run_id: UUID, user_id: UUID, llm: LLM, seed: int) -> dict:
         for mode in order:
             ledger = Ledger(owner_id=user_id, mode=mode, run_id=run_id)
             r = await run_mode(mode, q["question"], cfg, user_id, llm, ledger, doc_ids)
+            if r.error and r.error.get("status") in FATAL_STATUS:
+                async with user_tx(user_id) as conn:
+                    await ledger.flush(conn)
+                raise RuntimeError(f"provider refused the request (HTTP {r.error['status']}), run aborted: "
+                                   f"{r.error['message'][:200]}")
             pipeline = ledger.totals(PIPELINE_PURPOSES)
             m: dict[str, Any] = {}
             if r.retrieval is not None:
@@ -264,7 +270,9 @@ async def _execute(run_id: UUID, user_id: UUID, llm: LLM, seed: int) -> dict:
                      pipeline["output_tokens"], pipeline["cost_usd"], json.dumps(r.error) if r.error else None))
                 await ledger.flush(conn)
 
-    summary = {"modes": {}, "by_tag": {}, "judge_cost_usd": None if None in judge_cost else sum(judge_cost)}
+    errors = {m: sum(1 for r in rows if r["error"]) for m, rows in per_mode.items()}
+    summary = {"modes": {}, "by_tag": {}, "judge_cost_usd": None if None in judge_cost else sum(judge_cost),
+               "errors": errors, "complete": not any(errors.values())}
     for mode, rows in per_mode.items():
         summary["modes"][mode] = aggregate([{k: v for k, v in r.items() if k != "_tags"} for r in rows])
         costs = [r["cost_usd"] for r in rows]

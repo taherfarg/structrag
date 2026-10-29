@@ -51,7 +51,7 @@ async def run_mode(mode: str, query: str, cfg: RetrievalConfig, user_id: UUID, l
     except RoutingFailed as e:
         err = {"code": "routing_failed", "message": str(e), "trace": e.trace}
     except LLMError as e:
-        err = {"code": "llm_error", "message": str(e)[:500]}
+        err = {"code": "llm_error", "message": str(e)[:500], "status": e.status}
     return ModeResult(mode=mode, retrieval=res, answer=ans, error=err,
                       retrieval_latency_ms=res.latency_ms if res else None,
                       total_latency_ms=(time.perf_counter() - t0) * 1000, usage=ledger.totals())

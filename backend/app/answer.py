@@ -12,7 +12,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from .config import RetrievalConfig, get_settings
-from .llm import LLM, Ledger
+from .llm import LLM, Ledger, LLMError
 from .retrieval.common import Evidence
 
 ABSTAIN_TEXT = "The provided documents do not contain enough information to answer this question."
@@ -73,6 +73,7 @@ class GroundedAnswer(BaseModel):
     model: str | None
     latency_ms: float
     verification: list[ClaimVerdict] | None = None
+    verification_error: str | None = None
 
 
 def render_evidence(evidence: list[Evidence], nonce: str) -> str:
@@ -115,7 +116,10 @@ async def generate_answer(query: str, evidence: list[Evidence], cfg: RetrievalCo
         citations=sorted(cited.values(), key=lambda c: int(c.evidence_id[1:])), invalid_citations=invalid,
         uncited_claims=sum(1 for c in claims if not c["evidence_ids"]), model=model, latency_ms=0.0)
     if cfg.verify_citations and claims:
-        ans.verification = await verify_claims(query, evidence, claims, cfg, llm, ledger, purpose="verify")
+        try:  # verification is optional; its failure must not cost the user the answer
+            ans.verification = await verify_claims(query, evidence, claims, cfg, llm, ledger, purpose="verify")
+        except LLMError as e:
+            ans.verification_error = str(e)[:300]
     ans.latency_ms = (time.perf_counter() - t0) * 1000
     return ans
 

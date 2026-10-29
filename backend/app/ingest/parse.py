@@ -9,6 +9,7 @@ Heading evidence, strongest first:
 import io
 import logging
 import re
+import unicodedata
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import PurePath
@@ -90,7 +91,10 @@ def _promote_title(doc: ParsedDoc, stem: str) -> None:
     heads = [b for b in doc.blocks if b.kind == "heading"]
     if not heads or doc.blocks[0] is not heads[0]:
         return
-    if doc.title != stem and norm(doc.title) != norm(heads[0].text):
+    if norm(doc.title) == norm(heads[0].text):  # the file's own title, repeated as a heading
+        doc.blocks.pop(0)
+        return
+    if doc.title != stem:
         return
     top = min(h.level or 1 for h in heads)
     if (heads[0].level or 1) == top and sum(1 for h in heads if (h.level or 1) == top) == 1 and len(heads) > 1:
@@ -214,7 +218,8 @@ def _segments(blk: dict):
         spans = [s for s in line["spans"] if s["text"].strip()]
         if not spans:
             continue
-        text = "".join(s["text"] for s in line["spans"]).strip()
+        # NFKC folds ligatures (the "fi" in "Certificate" arrives as U+FB01) and other presentation forms.
+        text = unicodedata.normalize("NFKC", "".join(s["text"] for s in line["spans"])).strip()
         n = sum(len(s["text"]) for s in spans)
         size = round(sum(s["size"] * len(s["text"]) for s in spans) / n, 1)
         bold = all((s["flags"] & 16) or "bold" in s["font"].lower() for s in spans)

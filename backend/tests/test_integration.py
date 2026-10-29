@@ -208,3 +208,19 @@ def test_benchmark_metrics_with_explicit_fake(client, alice, manual):
     run2 = client.portal.call(create_run, alice[0], ds2["id"], ["vector"], RetrievalConfig(), "t")
     with pytest.raises(ValueError, match="gold sections not found"):
         client.portal.call(lambda: execute_run(run2, alice[0], client.fake, allow_fake=True))
+
+
+def test_billing_error_aborts_the_run(client, alice, manual):
+    from app.config import RetrievalConfig
+    from app.evaluation.runner import create_run, execute_run
+
+    ds = client.post("/api/eval/datasets", headers=auth(alice), json=DATASET).json()
+    run_id = client.portal.call(create_run, alice[0], ds["id"], ["structure"], RetrievalConfig(), "t")
+    client.fake.fail_status = 402
+    try:
+        with pytest.raises(RuntimeError, match="HTTP 402"):
+            client.portal.call(lambda: execute_run(run_id, alice[0], client.fake, allow_fake=True))
+    finally:
+        client.fake.fail_status = None
+    run = client.get(f"/api/benchmarks/{run_id}", headers=auth(alice)).json()
+    assert run["status"] == "failed" and "aborted" in run["error"]

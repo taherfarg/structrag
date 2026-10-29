@@ -10,7 +10,7 @@ import re
 
 from app.answer import AnswerOut, VerifyOut
 from app.evaluation.runner import CorrectnessOut
-from app.llm import Call, Ledger
+from app.llm import Call, Ledger, LLMError
 from app.retrieval.structure import DocSelectOut, RouteOut
 
 WORD = re.compile(r"[a-z0-9]+")
@@ -28,6 +28,7 @@ class FakeLLM:
         self.dim = dim
         self.router = None  # optional callable(prompt) -> dict, to script routing in a test
         self.prompts: list[tuple[str, str]] = []
+        self.fail_status: int | None = None  # make every chat call fail like a provider would
 
     async def aclose(self):
         pass
@@ -44,6 +45,8 @@ class FakeLLM:
         return out
 
     async def chat_json(self, schema, messages, *, model, purpose, ledger: Ledger, max_tokens=1000):
+        if self.fail_status:
+            raise LLMError(f"HTTP {self.fail_status}: fake provider refusal", self.fail_status)
         prompt = messages[-1]["content"]
         self.prompts.append((purpose, prompt))
         ledger.calls.append(Call(purpose, "fake-chat", len(prompt) // 4, 20, 0.0, 1.0))

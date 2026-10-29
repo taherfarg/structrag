@@ -69,6 +69,8 @@ async def benchmark(args) -> None:
         run = await (await conn.execute("select * from benchmark_runs where id = %s", (run_id,))).fetchone()
     out.write_text(json.dumps(run, default=str, indent=2), encoding="utf-8")
     print_summary(summary)
+    if not summary["complete"]:
+        print(f"\nWARNING: queries failed {summary['errors']}; quality metrics cover only the queries that ran.")
     print(f"\nfull run record: {out}")
 
 
@@ -79,8 +81,7 @@ ROWS = ["hit@1", "hit@3", "recall@3", "recall@5", "precision@3", "mrr", "ndcg@5"
 
 def print_summary(summary: dict) -> None:
     modes = list(summary["modes"])
-    print(f"
-{'metric':<24}" + "".join(f"{m:>22}" for m in modes))
+    print("\n" + f"{'metric':<24}" + "".join(f"{m:>22}" for m in modes))
     for key in ROWS:
         cells = []
         for m in modes:
