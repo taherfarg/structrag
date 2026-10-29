@@ -77,7 +77,9 @@ async def list_benchmarks(user: CurrentUser):
 @router.get("/benchmarks/{run_id}")
 async def get_benchmark(run_id: UUID, user: CurrentUser):
     async with user_tx(user.id) as conn:
-        run = await (await conn.execute("select * from benchmark_runs where id = %s", (run_id,))).fetchone()
+        run = await (await conn.execute(
+            "select r.*, d.name as dataset_name, d.version as dataset_version from benchmark_runs r "
+            "join eval_datasets d on d.id = r.dataset_id where r.id = %s", (run_id,))).fetchone()
         if not run:
             raise not_found("benchmark run")
         run["results"] = await (await conn.execute(
