@@ -1,0 +1,25 @@
+run 6329f688-c461-4cd6-9dcb-49e8a23c74eb: 53 queries x ['structure', 'hybrid']
+
+metric                               structure                hybrid
+hit@1                           0.8723 (47/53)        0.8723 (47/53)
+hit@3                           0.9787 (47/53)        0.9787 (47/53)
+recall@3                        0.9787 (47/53)        0.9787 (47/53)
+recall@5                        0.9894 (47/53)        0.9787 (47/53)
+precision@3                     0.3617 (47/53)        0.3617 (47/53)
+mrr                             0.9238 (47/53)        0.9184 (47/53)
+ndcg@5                          0.9395 (47/53)        0.9311 (47/53)
+correctness                     0.9894 (47/53)        0.9894 (47/53)
+faithfulness                         1 (47/53)             1 (47/53)
+citation_support                     1 (47/53)             1 (47/53)
+unsupported_claim_rate               0 (47/53)             0 (47/53)
+abstention_correct                   1 (53/53)             1 (53/53)
+invalid_route_ids              0.03774 (53/53)             0 (53/53)
+retrieval_latency_ms     2218 p95 4735 (53/53) 2581 p95 3929 (53/53)
+total_latency_ms         3567 p95 5943 (53/53) 4029 p95 5704 (53/53)
+input_tokens                      3105 (53/53)          4400 (53/53)
+cost_usd                      0.001561 (53/53)      0.001882 (53/53)
+error                                0 (53/53)             0 (53/53)
+total_cost_usd                          0.0828                0.0997
+judge cost (not counted above): $0.1476
+
+full run record: ..\eval\results\6329f688-c461-4cd6-9dcb-49e8a23c74eb.json

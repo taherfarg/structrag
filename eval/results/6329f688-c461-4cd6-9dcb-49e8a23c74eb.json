@@ -1,0 +1,4062 @@
+{
+  "id": "6329f688-c461-4cd6-9dcb-49e8a23c74eb",
+  "owner_id": "b39a4088-d689-4117-9ac7-1fc70598e470",
+  "dataset_id": "6cd1a2da-c15b-4570-8fca-9bd47477aad6",
+  "label": "gemini-budget1000-relevance",
+  "modes": [
+    "structure",
+    "hybrid"
+  ],
+  "config": {
+    "judge": true,
+    "rrf_k": 60,
+    "top_k": 8,
+    "rerank": "none",
+    "similarity": "cosine",
+    "judge_model": "gemini-3.8-flash",
+    "answer_model": "gemini-3.1-flash-lite",
+    "rerank_model": "Xenova/ms-marco-MiniLM-L-6-v2",
+    "router_model": "gemini-3.1-flash-lite",
+    "routing_depth": 3,
+    "weight_vector": 1.0,
+    "doc_select_max": 5,
+    "structure_order": "relevance",
+    "toc_token_budget": 4000,
+    "verify_citations": false,
+    "weight_structure": 1.0,
+    "answer_max_tokens": 1200,
+    "rerank_candidates": 30,
+    "toc_initial_depth": 2,
+    "vector_candidates": 20,
+    "structure_fallback": "none",
+    "context_token_budget": 1000,
+    "include_parent_intro": false,
+    "max_selected_sections": 6
+  },
+  "config_hash": "0adc2f074378ff41",
+  "manifest": {
+    "ks": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "seed": 0,
+    "judge": true,
+    "corpus": [
+      {
+        "id": "437d58e5-9306-4810-ac70-969bcba43030",
+        "chunks": 31,
+        "sha256": "fd27dcb2cd165802adb46a79f1dd716cd5d4ff12a5a15d275e7b7a5ab596d6c9",
+        "timings": {
+          "embed_ms": 2082,
+          "parse_ms": 3690,
+          "store_ms": 40,
+          "total_ms": 5812,
+          "reused_chunks": 0,
+          "embedded_chunks": 31
+        },
+        "version": 3,
+        "filename": "voltra-e5-owners-manual.pdf",
+        "sections": 33,
+        "parse_method": "pdf+outline",
+        "parse_confidence": 0.95
+      },
+      {
+        "id": "d897e473-3604-4cc3-81c4-9164b9cf8ff7",
+        "chunks": 41,
+        "sha256": "53cdcd42971b6896b5770e7e411fd0b8ba751d0e3aef823ed373f89fcbbd45c1",
+        "timings": {
+          "embed_ms": 1894,
+          "parse_ms": 44,
+          "store_ms": 44,
+          "total_ms": 1981,
+          "reused_chunks": 1,
+          "embedded_chunks": 40
+        },
+        "version": 3,
+        "filename": "voltra-service-bulletins.md",
+        "sections": 49,
+        "parse_method": "markdown",
+        "parse_confidence": 0.9
+      },
+      {
+        "id": "8753366f-72e1-4a93-9da5-09f22cd1d79f",
+        "chunks": 25,
+        "sha256": "00667c3ad89aed0a0649996771d601e8767c9002b08f4505fc9dbe4849649bdb",
+        "timings": {
+          "embed_ms": 1646,
+          "parse_ms": 386,
+          "store_ms": 32,
+          "total_ms": 2064,
+          "reused_chunks": 1,
+          "embedded_chunks": 24
+        },
+        "version": 3,
+        "filename": "export-shipping-guide.pdf",
+        "sections": 30,
+        "parse_method": "pdf+inferred",
+        "parse_confidence": 0.6
+      },
+      {
+        "id": "183350e9-d4de-4c6b-9807-2dcbd39cfd59",
+        "chunks": 18,
+        "sha256": "9c790681dc2c285660cfdea063ddbd4d5e11c8268c5de932713be5d0219dd065",
+        "timings": {
+          "embed_ms": 1617,
+          "parse_ms": 136,
+          "store_ms": 23,
+          "total_ms": 1777,
+          "reused_chunks": 0,
+          "embedded_chunks": 18
+        },
+        "version": 3,
+        "filename": "dealer-operations-handbook.docx",
+        "sections": 22,
+        "parse_method": "docx+styles",
+        "parse_confidence": 0.9
+      }
+    ],
+    "python": "3.12.10",
+    "dataset": {
+      "hash": "765d445cb6619f7d3f01b2fdf98020fa6e2461301b075941a67c8c3af23cb9d8",
+      "name": "voltra-synthetic",
+      "queries": 53,
+      "version": "v1"
+    },
+    "fake_llm": false,
+    "packages": {
+      "fastapi": "0.162.0",
+      "psycopg": "3.3.6",
+      "pymupdf": "2.0"
+    },
+    "git_commit": "3cbfd53e7308471fbc4afb19cf25d914af7f49b5",
+    "started_at": "2026-10-29T13:28:47.013256+00:00",
+    "concurrency": 1,
+    "llm_base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+    "embedding_dim": 1536,
+    "embedding_model": "gemini-embedding-001",
+    "chunk_max_tokens": 350
+  },
+  "status": "done",
+  "error": null,
+  "summary": {
+    "modes": {
+      "hybrid": {
+        "mrr": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9184397163120567,
+          "measured": 47
+        },
+        "error": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.0,
+          "measured": 53
+        },
+        "hit@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "hit@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "hit@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "claims": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 3.0,
+          "mean": 1.3773584905660377,
+          "measured": 53
+        },
+        "hit@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "ndcg@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "ndcg@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9311033937689982,
+          "measured": 47
+        },
+        "ndcg@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9311033937689982,
+          "measured": 47
+        },
+        "ndcg@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9400989221606291,
+          "measured": 47
+        },
+        "cost_usd": {
+          "n": 53,
+          "p50": 0.0018308,
+          "p95": 0.0023559099999999997,
+          "mean": 0.0018816952830188677,
+          "measured": 53
+        },
+        "recall@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8191489361702128,
+          "measured": 47
+        },
+        "recall@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "recall@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "recall@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "correctness": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9893617021276596,
+          "measured": 47
+        },
+        "precision@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "precision@3": {
+          "n": 53,
+          "p50": 0.3333333333333333,
+          "p95": 0.6666666666666666,
+          "mean": 0.3617021276595745,
+          "measured": 47
+        },
+        "precision@5": {
+          "n": 53,
+          "p50": 0.2,
+          "p95": 0.4,
+          "mean": 0.21702127659574472,
+          "measured": 47
+        },
+        "faithfulness": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "input_tokens": {
+          "n": 53,
+          "p50": 4330.0,
+          "p95": 4904.0,
+          "mean": 4399.603773584906,
+          "measured": 53
+        },
+        "precision@10": {
+          "n": 53,
+          "p50": 0.1,
+          "p95": 0.2,
+          "mean": 0.11276595744680852,
+          "measured": 47
+        },
+        "output_tokens": {
+          "n": 53,
+          "p50": 509.0,
+          "p95": 764.8,
+          "mean": 522.0188679245283,
+          "measured": 53
+        },
+        "total_cost_usd": 0.09972985,
+        "evidence_tokens": {
+          "n": 53,
+          "p50": 437.0,
+          "p95": 734.5999999999999,
+          "mean": 455.79245283018867,
+          "measured": 53
+        },
+        "citation_support": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "total_latency_ms": {
+          "n": 53,
+          "p50": 3965.137200000754,
+          "p95": 5703.672200001164,
+          "mean": 4029.493175471698,
+          "measured": 53
+        },
+        "invalid_route_ids": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.0,
+          "measured": 53
+        },
+        "abstention_correct": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 53
+        },
+        "retrieval_latency_ms": {
+          "n": 53,
+          "p50": 2477.9200999983004,
+          "p95": 3929.396279999491,
+          "mean": 2580.7578132075573,
+          "measured": 53
+        },
+        "unsupported_claim_rate": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.0,
+          "measured": 47
+        }
+      },
+      "structure": {
+        "mrr": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9237588652482269,
+          "measured": 47
+        },
+        "error": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.0,
+          "measured": 53
+        },
+        "hit@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "hit@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "hit@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "claims": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 2.0,
+          "mean": 1.3018867924528301,
+          "measured": 53
+        },
+        "hit@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "ndcg@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "ndcg@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9338891332066888,
+          "measured": 47
+        },
+        "ndcg@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9395076038997225,
+          "measured": 47
+        },
+        "ndcg@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9436230592958348,
+          "measured": 47
+        },
+        "cost_usd": {
+          "n": 53,
+          "p50": 0.0014845000000000001,
+          "p95": 0.00203975,
+          "mean": 0.0015613462264150943,
+          "measured": 53
+        },
+        "recall@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8191489361702128,
+          "measured": 47
+        },
+        "recall@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9787234042553191,
+          "measured": 47
+        },
+        "recall@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9893617021276596,
+          "measured": 47
+        },
+        "recall@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "correctness": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9893617021276596,
+          "measured": 47
+        },
+        "precision@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8723404255319149,
+          "measured": 47
+        },
+        "precision@3": {
+          "n": 53,
+          "p50": 0.3333333333333333,
+          "p95": 0.6666666666666666,
+          "mean": 0.3617021276595745,
+          "measured": 47
+        },
+        "precision@5": {
+          "n": 53,
+          "p50": 0.2,
+          "p95": 0.4,
+          "mean": 0.22127659574468087,
+          "measured": 47
+        },
+        "docorder_mrr": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.7648936170212767,
+          "measured": 47
+        },
+        "faithfulness": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "input_tokens": {
+          "n": 53,
+          "p50": 3053.0,
+          "p95": 3582.6,
+          "mean": 3105.0754716981132,
+          "measured": 53
+        },
+        "precision@10": {
+          "n": 53,
+          "p50": 0.1,
+          "p95": 0.2,
+          "mean": 0.11276595744680852,
+          "measured": 47
+        },
+        "output_tokens": {
+          "n": 53,
+          "p50": 481.0,
+          "p95": 788.8,
+          "mean": 524.2075471698113,
+          "measured": 53
+        },
+        "docorder_hit@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.6382978723404256,
+          "measured": 47
+        },
+        "docorder_hit@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8297872340425532,
+          "measured": 47
+        },
+        "docorder_hit@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "total_cost_usd": 0.08275135,
+        "docorder_hit@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "docorder_ndcg@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.6382978723404256,
+          "measured": 47
+        },
+        "docorder_ndcg@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.750756989817633,
+          "measured": 47
+        },
+        "docorder_ndcg@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8195863574399199,
+          "measured": 47
+        },
+        "evidence_tokens": {
+          "n": 53,
+          "p50": 56.0,
+          "p95": 285.0,
+          "mean": 75.26415094339623,
+          "measured": 53
+        },
+        "citation_support": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "docorder_ndcg@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8235134999245916,
+          "measured": 47
+        },
+        "total_latency_ms": {
+          "n": 53,
+          "p50": 3108.0585999989125,
+          "p95": 5942.542440001125,
+          "mean": 3566.9367452828737,
+          "measured": 53
+        },
+        "docorder_recall@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.5851063829787234,
+          "measured": 47
+        },
+        "docorder_recall@3": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.8297872340425532,
+          "measured": 47
+        },
+        "docorder_recall@5": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.9893617021276596,
+          "measured": 47
+        },
+        "invalid_route_ids": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.03773584905660377,
+          "measured": 53
+        },
+        "abstention_correct": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 53
+        },
+        "docorder_recall@10": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 1.0,
+          "measured": 47
+        },
+        "docorder_precision@1": {
+          "n": 53,
+          "p50": 1.0,
+          "p95": 1.0,
+          "mean": 0.6382978723404256,
+          "measured": 47
+        },
+        "docorder_precision@3": {
+          "n": 53,
+          "p50": 0.3333333333333333,
+          "p95": 0.6666666666666666,
+          "mean": 0.3120567375886525,
+          "measured": 47
+        },
+        "docorder_precision@5": {
+          "n": 53,
+          "p50": 0.2,
+          "p95": 0.4,
+          "mean": 0.22127659574468087,
+          "measured": 47
+        },
+        "retrieval_latency_ms": {
+          "n": 53,
+          "p50": 1706.2618999989354,
+          "p95": 4734.670539999206,
+          "mean": 2217.5419377357307,
+          "measured": 53
+        },
+        "docorder_precision@10": {
+          "n": 53,
+          "p50": 0.1,
+          "p95": 0.2,
+          "mean": 0.11276595744680852,
+          "measured": 47
+        },
+        "unsupported_claim_rate": {
+          "n": 53,
+          "p50": 0.0,
+          "p95": 0.0,
+          "mean": 0.0,
+          "measured": 47
+        }
+      }
+    },
+    "by_tag": {
+      "hybrid": {
+        "exact_id": {
+          "mrr": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "error": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 10
+          },
+          "hit@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "hit@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "hit@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "claims": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 2.0,
+            "mean": 1.1,
+            "measured": 10
+          },
+          "hit@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "cost_usd": {
+            "n": 10,
+            "p50": 0.0017727749999999999,
+            "p95": 0.002342575,
+            "mean": 0.0019078500000000002,
+            "measured": 10
+          },
+          "recall@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "correctness": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "precision@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "precision@3": {
+            "n": 10,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.3333333333333333,
+            "measured": 8
+          },
+          "precision@5": {
+            "n": 10,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 8
+          },
+          "faithfulness": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "input_tokens": {
+            "n": 10,
+            "p50": 4261.5,
+            "p95": 4748.5,
+            "mean": 4381.6,
+            "measured": 10
+          },
+          "precision@10": {
+            "n": 10,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 8
+          },
+          "output_tokens": {
+            "n": 10,
+            "p50": 478.0,
+            "p95": 771.05,
+            "mean": 542.4,
+            "measured": 10
+          },
+          "evidence_tokens": {
+            "n": 10,
+            "p50": 420.5,
+            "p95": 466.74999999999994,
+            "mean": 390.0,
+            "measured": 10
+          },
+          "citation_support": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "total_latency_ms": {
+            "n": 10,
+            "p50": 3555.2090000001044,
+            "p95": 5191.581285000574,
+            "mean": 3990.4690200000914,
+            "measured": 10
+          },
+          "invalid_route_ids": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 10
+          },
+          "abstention_correct": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 10
+          },
+          "retrieval_latency_ms": {
+            "n": 10,
+            "p50": 2336.5364000001136,
+            "p95": 3770.838074999664,
+            "mean": 2592.5427999998647,
+            "measured": 10
+          },
+          "unsupported_claim_rate": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 8
+          }
+        },
+        "semantic": {
+          "mrr": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8846153846153846,
+            "measured": 26
+          },
+          "error": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          },
+          "hit@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "hit@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "hit@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "claims": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 2.75,
+            "mean": 1.4615384615384615,
+            "measured": 26
+          },
+          "hit@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "ndcg@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "ndcg@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9139176733516506,
+            "measured": 26
+          },
+          "ndcg@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9139176733516506,
+            "measured": 26
+          },
+          "ndcg@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9139176733516506,
+            "measured": 26
+          },
+          "cost_usd": {
+            "n": 26,
+            "p50": 0.0017255,
+            "p95": 0.0023990125,
+            "mean": 0.0018549538461538463,
+            "measured": 26
+          },
+          "recall@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "recall@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "recall@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "recall@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "correctness": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "precision@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "precision@3": {
+            "n": 26,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.3333333333333333,
+            "measured": 26
+          },
+          "precision@5": {
+            "n": 26,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 26
+          },
+          "faithfulness": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "input_tokens": {
+            "n": 26,
+            "p50": 4280.5,
+            "p95": 5078.75,
+            "mean": 4429.2307692307695,
+            "measured": 26
+          },
+          "precision@10": {
+            "n": 26,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 26
+          },
+          "output_tokens": {
+            "n": 26,
+            "p50": 442.0,
+            "p95": 754.0,
+            "mean": 499.2307692307692,
+            "measured": 26
+          },
+          "evidence_tokens": {
+            "n": 26,
+            "p50": 448.0,
+            "p95": 769.25,
+            "mean": 498.5,
+            "measured": 26
+          },
+          "citation_support": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "total_latency_ms": {
+            "n": 26,
+            "p50": 3964.47470000021,
+            "p95": 6752.927825001279,
+            "mean": 4144.61573461547,
+            "measured": 26
+          },
+          "invalid_route_ids": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          },
+          "abstention_correct": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "retrieval_latency_ms": {
+            "n": 26,
+            "p50": 2579.9754500003473,
+            "p95": 4556.29774999943,
+            "mean": 2655.7297653846317,
+            "measured": 26
+          },
+          "unsupported_claim_rate": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          }
+        },
+        "unanswerable": {
+          "mrr": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "error": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "hit@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "hit@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "claims": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "cost_usd": {
+            "n": 6,
+            "p50": 0.0017434,
+            "p95": 0.00234505,
+            "mean": 0.0018591833333333333,
+            "measured": 6
+          },
+          "recall@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "correctness": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "faithfulness": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "input_tokens": {
+            "n": 6,
+            "p50": 4311.0,
+            "p95": 4726.5,
+            "mean": 4368.333333333333,
+            "measured": 6
+          },
+          "precision@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "output_tokens": {
+            "n": 6,
+            "p50": 449.0,
+            "p95": 776.25,
+            "mean": 512.1666666666666,
+            "measured": 6
+          },
+          "evidence_tokens": {
+            "n": 6,
+            "p50": 429.0,
+            "p95": 463.75,
+            "mean": 430.5,
+            "measured": 6
+          },
+          "citation_support": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "total_latency_ms": {
+            "n": 6,
+            "p50": 3639.247950000936,
+            "p95": 5187.648324999827,
+            "mean": 3729.7896666659653,
+            "measured": 6
+          },
+          "invalid_route_ids": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "abstention_correct": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "retrieval_latency_ms": {
+            "n": 6,
+            "p50": 2172.7717500016297,
+            "p95": 3854.9860999992234,
+            "mean": 2424.010400000649,
+            "measured": 6
+          },
+          "unsupported_claim_rate": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          }
+        },
+        "multi_section": {
+          "mrr": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8611111111111112,
+            "measured": 6
+          },
+          "error": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "hit@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "hit@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "claims": {
+            "n": 6,
+            "p50": 2.0,
+            "p95": 2.75,
+            "mean": 2.1666666666666665,
+            "measured": 6
+          },
+          "hit@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "ndcg@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "ndcg@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "ndcg@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "ndcg@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9037983057344418,
+            "measured": 6
+          },
+          "cost_usd": {
+            "n": 6,
+            "p50": 0.00204745,
+            "p95": 0.0023036999999999997,
+            "mean": 0.0020439833333333332,
+            "measured": 6
+          },
+          "recall@1": {
+            "n": 6,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.4166666666666667,
+            "measured": 6
+          },
+          "recall@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "recall@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "recall@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "correctness": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "precision@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "precision@3": {
+            "n": 6,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.5555555555555555,
+            "measured": 6
+          },
+          "precision@5": {
+            "n": 6,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.3333333333333333,
+            "measured": 6
+          },
+          "faithfulness": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "input_tokens": {
+            "n": 6,
+            "p50": 4465.0,
+            "p95": 4758.0,
+            "mean": 4449.333333333333,
+            "measured": 6
+          },
+          "precision@10": {
+            "n": 6,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.20000000000000004,
+            "measured": 6
+          },
+          "output_tokens": {
+            "n": 6,
+            "p50": 631.5,
+            "p95": 744.25,
+            "mean": 622.1666666666666,
+            "measured": 6
+          },
+          "evidence_tokens": {
+            "n": 6,
+            "p50": 410.5,
+            "p95": 539.5,
+            "mean": 413.8333333333333,
+            "measured": 6
+          },
+          "citation_support": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "total_latency_ms": {
+            "n": 6,
+            "p50": 4071.0085000009713,
+            "p95": 4973.66722499919,
+            "mean": 4107.627916666995,
+            "measured": 6
+          },
+          "invalid_route_ids": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "abstention_correct": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "retrieval_latency_ms": {
+            "n": 6,
+            "p50": 2450.289700000212,
+            "p95": 3473.1101500001387,
+            "mean": 2529.3201666663663,
+            "measured": 6
+          },
+          "unsupported_claim_rate": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          }
+        },
+        "cross_document": {
+          "mrr": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "error": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          },
+          "hit@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "hit@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "hit@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "claims": {
+            "n": 1,
+            "p50": 2.0,
+            "p95": 2.0,
+            "mean": 2.0,
+            "measured": 1
+          },
+          "hit@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "cost_usd": {
+            "n": 1,
+            "p50": 0.00231695,
+            "p95": 0.00231695,
+            "mean": 0.00231695,
+            "measured": 1
+          },
+          "recall@1": {
+            "n": 1,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.5,
+            "measured": 1
+          },
+          "recall@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "recall@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "recall@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "correctness": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "precision@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "precision@3": {
+            "n": 1,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.6666666666666666,
+            "measured": 1
+          },
+          "precision@5": {
+            "n": 1,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.4,
+            "measured": 1
+          },
+          "faithfulness": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "input_tokens": {
+            "n": 1,
+            "p50": 4765.0,
+            "p95": 4765.0,
+            "mean": 4765.0,
+            "measured": 1
+          },
+          "precision@10": {
+            "n": 1,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 1
+          },
+          "output_tokens": {
+            "n": 1,
+            "p50": 752.0,
+            "p95": 752.0,
+            "mean": 752.0,
+            "measured": 1
+          },
+          "evidence_tokens": {
+            "n": 1,
+            "p50": 467.0,
+            "p95": 467.0,
+            "mean": 467.0,
+            "measured": 1
+          },
+          "citation_support": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "total_latency_ms": {
+            "n": 1,
+            "p50": 4686.690300000919,
+            "p95": 4686.690300000919,
+            "mean": 4686.690300000919,
+            "measured": 1
+          },
+          "invalid_route_ids": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          },
+          "abstention_correct": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "retrieval_latency_ms": {
+            "n": 1,
+            "p50": 3028.8928000009037,
+            "p95": 3028.8928000009037,
+            "mean": 3028.8928000009037,
+            "measured": 1
+          },
+          "unsupported_claim_rate": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          }
+        },
+        "heading_context": {
+          "mrr": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8095238095238095,
+            "measured": 14
+          },
+          "error": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          },
+          "hit@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "hit@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "hit@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "claims": {
+            "n": 14,
+            "p50": 2.0,
+            "p95": 3.3499999999999996,
+            "mean": 1.9285714285714286,
+            "measured": 14
+          },
+          "hit@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "ndcg@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "ndcg@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8307806966836756,
+            "measured": 14
+          },
+          "ndcg@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8307806966836756,
+            "measured": 14
+          },
+          "ndcg@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8609799705698649,
+            "measured": 14
+          },
+          "cost_usd": {
+            "n": 14,
+            "p50": 0.001949825,
+            "p95": 0.0021190775,
+            "mean": 0.0019140107142857144,
+            "measured": 14
+          },
+          "recall@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6428571428571429,
+            "measured": 14
+          },
+          "recall@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "recall@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "recall@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "correctness": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9642857142857143,
+            "measured": 14
+          },
+          "precision@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "precision@3": {
+            "n": 14,
+            "p50": 0.3333333333333333,
+            "p95": 0.6666666666666666,
+            "mean": 0.35714285714285715,
+            "measured": 14
+          },
+          "precision@5": {
+            "n": 14,
+            "p50": 0.2,
+            "p95": 0.4,
+            "mean": 0.21428571428571427,
+            "measured": 14
+          },
+          "faithfulness": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "input_tokens": {
+            "n": 14,
+            "p50": 4410.5,
+            "p95": 4781.55,
+            "mean": 4429.5,
+            "measured": 14
+          },
+          "precision@10": {
+            "n": 14,
+            "p50": 0.1,
+            "p95": 0.2,
+            "mean": 0.12142857142857144,
+            "measured": 14
+          },
+          "output_tokens": {
+            "n": 14,
+            "p50": 539.0,
+            "p95": 638.5,
+            "mean": 538.6428571428571,
+            "measured": 14
+          },
+          "evidence_tokens": {
+            "n": 14,
+            "p50": 458.0,
+            "p95": 711.7499999999999,
+            "mean": 480.57142857142856,
+            "measured": 14
+          },
+          "citation_support": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "total_latency_ms": {
+            "n": 14,
+            "p50": 4071.5170000003127,
+            "p95": 4800.9532099986245,
+            "mean": 4042.340957142837,
+            "measured": 14
+          },
+          "invalid_route_ids": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          },
+          "abstention_correct": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "retrieval_latency_ms": {
+            "n": 14,
+            "p50": 2675.900800002637,
+            "p95": 3138.3769699994446,
+            "mean": 2529.944821428476,
+            "measured": 14
+          },
+          "unsupported_claim_rate": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          }
+        }
+      },
+      "structure": {
+        "exact_id": {
+          "mrr": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "error": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 10
+          },
+          "hit@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "hit@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "hit@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "claims": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 2.0,
+            "mean": 1.1,
+            "measured": 10
+          },
+          "hit@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "ndcg@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "cost_usd": {
+            "n": 10,
+            "p50": 0.001436825,
+            "p95": 0.0021054624999999995,
+            "mean": 0.0015813250000000002,
+            "measured": 10
+          },
+          "recall@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "recall@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "correctness": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "precision@1": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "precision@3": {
+            "n": 10,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.3333333333333333,
+            "measured": 8
+          },
+          "precision@5": {
+            "n": 10,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 8
+          },
+          "docorder_mrr": {
+            "n": 10,
+            "p50": 0.41666666666666663,
+            "p95": 1.0,
+            "mean": 0.5729166666666666,
+            "measured": 8
+          },
+          "faithfulness": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "input_tokens": {
+            "n": 10,
+            "p50": 3064.5,
+            "p95": 3778.1499999999996,
+            "mean": 3163.7,
+            "measured": 10
+          },
+          "precision@10": {
+            "n": 10,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 8
+          },
+          "output_tokens": {
+            "n": 10,
+            "p50": 467.5,
+            "p95": 774.6999999999999,
+            "mean": 527.7,
+            "measured": 10
+          },
+          "docorder_hit@1": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 1.0,
+            "mean": 0.375,
+            "measured": 8
+          },
+          "docorder_hit@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.625,
+            "measured": 8
+          },
+          "docorder_hit@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "docorder_hit@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "docorder_ndcg@1": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 1.0,
+            "mean": 0.375,
+            "measured": 8
+          },
+          "docorder_ndcg@3": {
+            "n": 10,
+            "p50": 0.5654648767857288,
+            "p95": 1.0,
+            "mean": 0.5163662191964322,
+            "measured": 8
+          },
+          "docorder_ndcg@5": {
+            "n": 10,
+            "p50": 0.5654648767857288,
+            "p95": 1.0,
+            "mean": 0.6778699284739546,
+            "measured": 8
+          },
+          "evidence_tokens": {
+            "n": 10,
+            "p50": 67.0,
+            "p95": 285.0,
+            "mean": 130.2,
+            "measured": 10
+          },
+          "citation_support": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "docorder_ndcg@10": {
+            "n": 10,
+            "p50": 0.5654648767857288,
+            "p95": 1.0,
+            "mean": 0.6778699284739546,
+            "measured": 8
+          },
+          "total_latency_ms": {
+            "n": 10,
+            "p50": 3635.441450000144,
+            "p95": 6138.92760500039,
+            "mean": 3947.655709999526,
+            "measured": 10
+          },
+          "docorder_recall@1": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 1.0,
+            "mean": 0.375,
+            "measured": 8
+          },
+          "docorder_recall@3": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.625,
+            "measured": 8
+          },
+          "docorder_recall@5": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "invalid_route_ids": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 10
+          },
+          "abstention_correct": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 10
+          },
+          "docorder_recall@10": {
+            "n": 10,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 8
+          },
+          "docorder_precision@1": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 1.0,
+            "mean": 0.375,
+            "measured": 8
+          },
+          "docorder_precision@3": {
+            "n": 10,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.20833333333333331,
+            "measured": 8
+          },
+          "docorder_precision@5": {
+            "n": 10,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 8
+          },
+          "retrieval_latency_ms": {
+            "n": 10,
+            "p50": 2180.3718999981356,
+            "p95": 4745.821814998999,
+            "mean": 2630.122169999595,
+            "measured": 10
+          },
+          "docorder_precision@10": {
+            "n": 10,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 8
+          },
+          "unsupported_claim_rate": {
+            "n": 10,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 8
+          }
+        },
+        "semantic": {
+          "mrr": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8910256410256411,
+            "measured": 26
+          },
+          "error": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          },
+          "hit@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "hit@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "hit@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "claims": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 2.0,
+            "mean": 1.3076923076923077,
+            "measured": 26
+          },
+          "hit@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "ndcg@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "ndcg@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9189534331043989,
+            "measured": 26
+          },
+          "ndcg@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9189534331043989,
+            "measured": 26
+          },
+          "ndcg@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9189534331043989,
+            "measured": 26
+          },
+          "cost_usd": {
+            "n": 26,
+            "p50": 0.001407425,
+            "p95": 0.0019973125,
+            "mean": 0.0015283769230769232,
+            "measured": 26
+          },
+          "recall@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "recall@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "recall@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "recall@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "correctness": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "precision@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8076923076923077,
+            "measured": 26
+          },
+          "precision@3": {
+            "n": 26,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.3333333333333333,
+            "measured": 26
+          },
+          "precision@5": {
+            "n": 26,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 26
+          },
+          "docorder_mrr": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7801282051282052,
+            "measured": 26
+          },
+          "faithfulness": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "input_tokens": {
+            "n": 26,
+            "p50": 3034.0,
+            "p95": 3458.25,
+            "mean": 3081.846153846154,
+            "measured": 26
+          },
+          "precision@10": {
+            "n": 26,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 26
+          },
+          "output_tokens": {
+            "n": 26,
+            "p50": 441.5,
+            "p95": 761.0,
+            "mean": 506.0769230769231,
+            "measured": 26
+          },
+          "docorder_hit@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6538461538461539,
+            "measured": 26
+          },
+          "docorder_hit@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8461538461538461,
+            "measured": 26
+          },
+          "docorder_hit@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "docorder_hit@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "docorder_ndcg@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6538461538461539,
+            "measured": 26
+          },
+          "docorder_ndcg@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7701430390109935,
+            "measured": 26
+          },
+          "docorder_ndcg@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8347154421438674,
+            "measured": 26
+          },
+          "evidence_tokens": {
+            "n": 26,
+            "p50": 53.5,
+            "p95": 136.75,
+            "mean": 61.84615384615385,
+            "measured": 26
+          },
+          "citation_support": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "docorder_ndcg@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8347154421438674,
+            "measured": 26
+          },
+          "total_latency_ms": {
+            "n": 26,
+            "p50": 3005.079050000859,
+            "p95": 5727.410575001159,
+            "mean": 3488.808142307719,
+            "measured": 26
+          },
+          "docorder_recall@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6538461538461539,
+            "measured": 26
+          },
+          "docorder_recall@3": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8461538461538461,
+            "measured": 26
+          },
+          "docorder_recall@5": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "invalid_route_ids": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          },
+          "abstention_correct": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "docorder_recall@10": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 26
+          },
+          "docorder_precision@1": {
+            "n": 26,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6538461538461539,
+            "measured": 26
+          },
+          "docorder_precision@3": {
+            "n": 26,
+            "p50": 0.3333333333333333,
+            "p95": 0.3333333333333333,
+            "mean": 0.28205128205128205,
+            "measured": 26
+          },
+          "docorder_precision@5": {
+            "n": 26,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 26
+          },
+          "retrieval_latency_ms": {
+            "n": 26,
+            "p50": 1602.9664500001672,
+            "p95": 4384.787249999135,
+            "mean": 2131.5308000000814,
+            "measured": 26
+          },
+          "docorder_precision@10": {
+            "n": 26,
+            "p50": 0.1,
+            "p95": 0.1,
+            "mean": 0.1,
+            "measured": 26
+          },
+          "unsupported_claim_rate": {
+            "n": 26,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 26
+          }
+        },
+        "unanswerable": {
+          "mrr": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "error": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "hit@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "hit@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "claims": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "ndcg@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "cost_usd": {
+            "n": 6,
+            "p50": 0.001267025,
+            "p95": 0.0021630499999999997,
+            "mean": 0.001482225,
+            "measured": 6
+          },
+          "recall@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "recall@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "correctness": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "precision@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_mrr": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "faithfulness": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "input_tokens": {
+            "n": 6,
+            "p50": 2911.5,
+            "p95": 3800.5,
+            "mean": 3077.5,
+            "measured": 6
+          },
+          "precision@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "output_tokens": {
+            "n": 6,
+            "p50": 376.0,
+            "p95": 809.25,
+            "mean": 476.0,
+            "measured": 6
+          },
+          "docorder_hit@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_hit@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_hit@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_hit@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_ndcg@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_ndcg@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_ndcg@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "evidence_tokens": {
+            "n": 6,
+            "p50": 38.5,
+            "p95": 247.0,
+            "mean": 82.5,
+            "measured": 6
+          },
+          "citation_support": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_ndcg@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "total_latency_ms": {
+            "n": 6,
+            "p50": 2516.2672999995266,
+            "p95": 5624.0974500005905,
+            "mean": 3270.0354999997217,
+            "measured": 6
+          },
+          "docorder_recall@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_recall@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_recall@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "invalid_route_ids": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "abstention_correct": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_recall@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_precision@1": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_precision@3": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "docorder_precision@5": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "retrieval_latency_ms": {
+            "n": 6,
+            "p50": 2156.3341000000946,
+            "p95": 4292.55802499938,
+            "mean": 2421.1105833334536,
+            "measured": 6
+          },
+          "docorder_precision@10": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          },
+          "unsupported_claim_rate": {
+            "n": 6,
+            "p50": null,
+            "p95": null,
+            "mean": null,
+            "measured": 0
+          }
+        },
+        "multi_section": {
+          "mrr": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.875,
+            "measured": 6
+          },
+          "error": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          },
+          "hit@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "hit@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "hit@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "claims": {
+            "n": 6,
+            "p50": 2.0,
+            "p95": 2.75,
+            "mean": 2.1666666666666665,
+            "measured": 6
+          },
+          "hit@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "ndcg@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "ndcg@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "ndcg@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8773446870954319,
+            "measured": 6
+          },
+          "ndcg@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9095824210316437,
+            "measured": 6
+          },
+          "cost_usd": {
+            "n": 6,
+            "p50": 0.0017812750000000001,
+            "p95": 0.0020163875,
+            "mean": 0.001752025,
+            "measured": 6
+          },
+          "recall@1": {
+            "n": 6,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.4166666666666667,
+            "measured": 6
+          },
+          "recall@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "recall@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9166666666666666,
+            "measured": 6
+          },
+          "recall@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "correctness": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "precision@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "precision@3": {
+            "n": 6,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.5555555555555555,
+            "measured": 6
+          },
+          "precision@5": {
+            "n": 6,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.3666666666666667,
+            "measured": 6
+          },
+          "docorder_mrr": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.875,
+            "measured": 6
+          },
+          "faithfulness": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "input_tokens": {
+            "n": 6,
+            "p50": 3325.0,
+            "p95": 3521.5,
+            "mean": 3228.5,
+            "measured": 6
+          },
+          "precision@10": {
+            "n": 6,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.20000000000000004,
+            "measured": 6
+          },
+          "output_tokens": {
+            "n": 6,
+            "p50": 624.5,
+            "p95": 783.0,
+            "mean": 631.0,
+            "measured": 6
+          },
+          "docorder_hit@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_hit@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_hit@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_hit@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_ndcg@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_ndcg@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_ndcg@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8773446870954319,
+            "measured": 6
+          },
+          "evidence_tokens": {
+            "n": 6,
+            "p50": 65.0,
+            "p95": 118.0,
+            "mean": 71.0,
+            "measured": 6
+          },
+          "citation_support": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_ndcg@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9081073032253598,
+            "measured": 6
+          },
+          "total_latency_ms": {
+            "n": 6,
+            "p50": 3678.3109000007244,
+            "p95": 4841.586200001075,
+            "mean": 3775.9894666669425,
+            "measured": 6
+          },
+          "docorder_recall@1": {
+            "n": 6,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.4166666666666667,
+            "measured": 6
+          },
+          "docorder_recall@3": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_recall@5": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9166666666666666,
+            "measured": 6
+          },
+          "invalid_route_ids": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 1.5,
+            "mean": 0.3333333333333333,
+            "measured": 6
+          },
+          "abstention_correct": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_recall@10": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 6
+          },
+          "docorder_precision@1": {
+            "n": 6,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8333333333333334,
+            "measured": 6
+          },
+          "docorder_precision@3": {
+            "n": 6,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.5555555555555555,
+            "measured": 6
+          },
+          "docorder_precision@5": {
+            "n": 6,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.3666666666666667,
+            "measured": 6
+          },
+          "retrieval_latency_ms": {
+            "n": 6,
+            "p50": 2083.9748499984125,
+            "p95": 3179.978249998385,
+            "mean": 2181.360283332348,
+            "measured": 6
+          },
+          "docorder_precision@10": {
+            "n": 6,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.20000000000000004,
+            "measured": 6
+          },
+          "unsupported_claim_rate": {
+            "n": 6,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 6
+          }
+        },
+        "cross_document": {
+          "mrr": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "error": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          },
+          "hit@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "hit@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "hit@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "claims": {
+            "n": 1,
+            "p50": 2.0,
+            "p95": 2.0,
+            "mean": 2.0,
+            "measured": 1
+          },
+          "hit@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "ndcg@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "cost_usd": {
+            "n": 1,
+            "p50": 0.0020147,
+            "p95": 0.0020147,
+            "mean": 0.0020147,
+            "measured": 1
+          },
+          "recall@1": {
+            "n": 1,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.5,
+            "measured": 1
+          },
+          "recall@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "recall@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "recall@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "correctness": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "precision@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "precision@3": {
+            "n": 1,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.6666666666666666,
+            "measured": 1
+          },
+          "precision@5": {
+            "n": 1,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.4,
+            "measured": 1
+          },
+          "docorder_mrr": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "faithfulness": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "input_tokens": {
+            "n": 1,
+            "p50": 3550.0,
+            "p95": 3550.0,
+            "mean": 3550.0,
+            "measured": 1
+          },
+          "precision@10": {
+            "n": 1,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 1
+          },
+          "output_tokens": {
+            "n": 1,
+            "p50": 753.0,
+            "p95": 753.0,
+            "mean": 753.0,
+            "measured": 1
+          },
+          "docorder_hit@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_hit@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_hit@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_hit@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_ndcg@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_ndcg@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_ndcg@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "evidence_tokens": {
+            "n": 1,
+            "p50": 91.0,
+            "p95": 91.0,
+            "mean": 91.0,
+            "measured": 1
+          },
+          "citation_support": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_ndcg@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "total_latency_ms": {
+            "n": 1,
+            "p50": 5022.236000000703,
+            "p95": 5022.236000000703,
+            "mean": 5022.236000000703,
+            "measured": 1
+          },
+          "docorder_recall@1": {
+            "n": 1,
+            "p50": 0.5,
+            "p95": 0.5,
+            "mean": 0.5,
+            "measured": 1
+          },
+          "docorder_recall@3": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_recall@5": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "invalid_route_ids": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          },
+          "abstention_correct": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_recall@10": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_precision@1": {
+            "n": 1,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 1
+          },
+          "docorder_precision@3": {
+            "n": 1,
+            "p50": 0.6666666666666666,
+            "p95": 0.6666666666666666,
+            "mean": 0.6666666666666666,
+            "measured": 1
+          },
+          "docorder_precision@5": {
+            "n": 1,
+            "p50": 0.4,
+            "p95": 0.4,
+            "mean": 0.4,
+            "measured": 1
+          },
+          "retrieval_latency_ms": {
+            "n": 1,
+            "p50": 3406.338099997811,
+            "p95": 3406.338099997811,
+            "mean": 3406.338099997811,
+            "measured": 1
+          },
+          "docorder_precision@10": {
+            "n": 1,
+            "p50": 0.2,
+            "p95": 0.2,
+            "mean": 0.2,
+            "measured": 1
+          },
+          "unsupported_claim_rate": {
+            "n": 1,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 1
+          }
+        },
+        "heading_context": {
+          "mrr": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8154761904761905,
+            "measured": 14
+          },
+          "error": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          },
+          "hit@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "hit@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "hit@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "claims": {
+            "n": 14,
+            "p50": 1.5,
+            "p95": 2.3499999999999996,
+            "mean": 1.5714285714285714,
+            "measured": 14
+          },
+          "hit@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "ndcg@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "ndcg@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8307806966836756,
+            "measured": 14
+          },
+          "ndcg@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8496427054388606,
+            "measured": 14
+          },
+          "ndcg@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.8634588771258086,
+            "measured": 14
+          },
+          "cost_usd": {
+            "n": 14,
+            "p50": 0.0015428999999999998,
+            "p95": 0.0018477025,
+            "mean": 0.0015714928571428572,
+            "measured": 14
+          },
+          "recall@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.6428571428571429,
+            "measured": 14
+          },
+          "recall@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9285714285714286,
+            "measured": 14
+          },
+          "recall@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9642857142857143,
+            "measured": 14
+          },
+          "recall@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "correctness": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9642857142857143,
+            "measured": 14
+          },
+          "precision@1": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "precision@3": {
+            "n": 14,
+            "p50": 0.3333333333333333,
+            "p95": 0.6666666666666666,
+            "mean": 0.35714285714285715,
+            "measured": 14
+          },
+          "precision@5": {
+            "n": 14,
+            "p50": 0.2,
+            "p95": 0.4,
+            "mean": 0.2285714285714286,
+            "measured": 14
+          },
+          "docorder_mrr": {
+            "n": 14,
+            "p50": 0.75,
+            "p95": 1.0,
+            "mean": 0.6547619047619048,
+            "measured": 14
+          },
+          "faithfulness": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "input_tokens": {
+            "n": 14,
+            "p50": 3099.5,
+            "p95": 3436.7,
+            "mean": 3116.8571428571427,
+            "measured": 14
+          },
+          "precision@10": {
+            "n": 14,
+            "p50": 0.1,
+            "p95": 0.2,
+            "mean": 0.12142857142857144,
+            "measured": 14
+          },
+          "output_tokens": {
+            "n": 14,
+            "p50": 526.0,
+            "p95": 671.05,
+            "mean": 529.0714285714286,
+            "measured": 14
+          },
+          "docorder_hit@1": {
+            "n": 14,
+            "p50": 0.5,
+            "p95": 1.0,
+            "mean": 0.5,
+            "measured": 14
+          },
+          "docorder_hit@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "docorder_hit@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "docorder_hit@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "docorder_ndcg@1": {
+            "n": 14,
+            "p50": 0.5,
+            "p95": 1.0,
+            "mean": 0.5,
+            "measured": 14
+          },
+          "docorder_ndcg@3": {
+            "n": 14,
+            "p50": 0.8154648767857288,
+            "p95": 1.0,
+            "mean": 0.6164949823979613,
+            "measured": 14
+          },
+          "docorder_ndcg@5": {
+            "n": 14,
+            "p50": 0.8154648767857288,
+            "p95": 1.0,
+            "mean": 0.7276448250260162,
+            "measured": 14
+          },
+          "evidence_tokens": {
+            "n": 14,
+            "p50": 59.0,
+            "p95": 136.45,
+            "mean": 65.21428571428571,
+            "measured": 14
+          },
+          "citation_support": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "docorder_ndcg@10": {
+            "n": 14,
+            "p50": 0.8154648767857288,
+            "p95": 1.0,
+            "mean": 0.740828803367414,
+            "measured": 14
+          },
+          "total_latency_ms": {
+            "n": 14,
+            "p50": 3520.2134999981354,
+            "p95": 5138.077025001439,
+            "mean": 3608.9205999999517,
+            "measured": 14
+          },
+          "docorder_recall@1": {
+            "n": 14,
+            "p50": 0.25,
+            "p95": 1.0,
+            "mean": 0.42857142857142855,
+            "measured": 14
+          },
+          "docorder_recall@3": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.7142857142857143,
+            "measured": 14
+          },
+          "docorder_recall@5": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 0.9642857142857143,
+            "measured": 14
+          },
+          "invalid_route_ids": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          },
+          "abstention_correct": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "docorder_recall@10": {
+            "n": 14,
+            "p50": 1.0,
+            "p95": 1.0,
+            "mean": 1.0,
+            "measured": 14
+          },
+          "docorder_precision@1": {
+            "n": 14,
+            "p50": 0.5,
+            "p95": 1.0,
+            "mean": 0.5,
+            "measured": 14
+          },
+          "docorder_precision@3": {
+            "n": 14,
+            "p50": 0.3333333333333333,
+            "p95": 0.6666666666666666,
+            "mean": 0.2857142857142857,
+            "measured": 14
+          },
+          "docorder_precision@5": {
+            "n": 14,
+            "p50": 0.2,
+            "p95": 0.4,
+            "mean": 0.2285714285714286,
+            "measured": 14
+          },
+          "retrieval_latency_ms": {
+            "n": 14,
+            "p50": 1704.71169999837,
+            "p95": 3741.9075599991625,
+            "mean": 2198.165142856721,
+            "measured": 14
+          },
+          "docorder_precision@10": {
+            "n": 14,
+            "p50": 0.1,
+            "p95": 0.2,
+            "mean": 0.12142857142857144,
+            "measured": 14
+          },
+          "unsupported_claim_rate": {
+            "n": 14,
+            "p50": 0.0,
+            "p95": 0.0,
+            "mean": 0.0,
+            "measured": 14
+          }
+        }
+      }
+    },
+    "errors": {
+      "hybrid": 0,
+      "structure": 0
+    },
+    "complete": true,
+    "judge_cost_usd": 0.147567
+  },
+  "created_at": "2026-10-29 13:28:46.774642+00:00",
+  "finished_at": "2026-10-29 13:44:12.919257+00:00"
+}

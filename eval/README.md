@@ -130,6 +130,48 @@ counts are small (6–26). The corpus is synthetic and built to stress section
 disambiguation, and correctness is graded by an LLM. Treat it as a working
 comparison, not a general verdict on the three methods.
 
+### Run `gemini-budget1000-relevance` (2026-10-29): ordering inside selected sections
+
+Record: [`results/6329f688-c461-4cd6-9dcb-49e8a23c74eb.json`](results/6329f688-c461-4cd6-9dcb-49e8a23c74eb.json),
+config hash `0adc2f074378ff41`. Same settings as above, plus `structure_order: "relevance"`. The
+router still picks the sections; each section's chunks are then sorted by
+similarity to the query instead of reading order. Only structure and hybrid
+were run, because vector doesn't use this setting. 0 failed queries.
+
+**Paired comparison.** Structure mode scores both orderings of the *same* routing decision, so this
+measures ordering alone, without routing noise. Values are document order → relevance order (n = 47):
+
+| Metric | document | relevance |
+|---|---|---|
+| Hit@1 | 0.64 | **0.87** |
+| Hit@3 | 0.83 | **0.98** |
+| MRR | 0.76 | **0.92** |
+| nDCG@5 | 0.82 | **0.94** |
+| Recall@5 | 0.99 | 0.99 |
+
+MRR improved on 14 questions and got worse on none (sign test p ≈ 0.0001).
+The gains are where the earlier run said they would be: bulletin questions,
+where "Repair" or "Cause" now comes before "Applies To" (t01, t05–t09), and
+warning-code tables. Recall@5 is unchanged because the same text is retrieved,
+only in a better order. The document-order scores here match the previous run
+exactly, so routing was stable between the two runs.
+
+Compared with the previous run (unpaired):
+
+| Metric | structure before | structure after | hybrid before | hybrid after |
+|---|---|---|---|---|
+| Hit@1 | 0.64 | 0.87 | 0.81 | 0.87 |
+| MRR | 0.76 | 0.92 | 0.89 | 0.92 |
+| Answer correctness | 0.98 | 0.99 | 0.99 | 0.99 |
+| Cost per query | $0.00156 | $0.00156 | $0.00187 | $0.00188 |
+| End-to-end p50 | 3.1 s | 3.1 s | 3.4 s | 4.0 s |
+
+With relevance ordering, structure alone now ranks as well as hybrid
+(MRR 0.92 for both) at about 83% of hybrid's cost, and needs one cheap
+embedding call that runs alongside routing. Hybrid's higher median latency in
+this run isn't explained by the change, which adds no extra call to hybrid,
+so it is most likely provider variance; one run can't tell.
+
 ### Run `baseline-budget1000` (2026-10-29), invalid
 
 OpenRouter returned HTTP 402 (out of credits) on most queries. The run is
