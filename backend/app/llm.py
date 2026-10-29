@@ -142,10 +142,10 @@ class LLM:
     async def _post(self, base: str, key: str, path: str, body: dict) -> tuple[dict, float]:
         delay = 1.0
         last: Exception | None = None
-        for attempt in range(5):
+        for attempt in range(self.s.llm_max_attempts):
             if attempt:
                 await asyncio.sleep(delay + random.random() * 0.5)
-                delay = min(delay * 2, 20)
+                delay = min(delay * 2, 60)
             started = time.perf_counter()
             try:
                 async with self.sem:
@@ -163,7 +163,7 @@ class LLM:
                 last = LLMError(f"HTTP {r.status_code}: {r.text[:300]}")
                 retry_after = r.headers.get("retry-after")
                 if retry_after and retry_after.isdigit():
-                    delay = min(float(retry_after), 30)
+                    delay = min(float(retry_after), 60)
                 log.warning("llm %s, attempt %d", last, attempt + 1)
                 continue
             if r.status_code >= 400:
@@ -186,7 +186,10 @@ class LLM:
         raise LLMError(f"gave up after retries: {last}")
 
     async def _price(self, model: str, inp: int, out: int) -> float | None:
-        """Fallback when the provider does not report cost: OpenRouter's public price list."""
+        """When the provider reports no cost: configured MODEL_PRICES, then OpenRouter's public price list."""
+        if model in self.s.model_prices:
+            pin, pout = self.s.model_prices[model]
+            return (inp * pin + out * pout) / 1e6
         if self._prices is None:
             self._prices = {}
             try:
@@ -207,7 +210,9 @@ class LLM:
     async def _record(self, ledger: Ledger, purpose: str, model: str, data: dict, ms: float, ok=True) -> None:
         u = data.get("usage") or {}
         inp = int(u.get("prompt_tokens") or 0)
-        out = int(u.get("completion_tokens") or 0)
+        # Thinking tokens are billed as output. Some providers fold them into completion_tokens,
+        # others only report them in total_tokens; take whichever accounts for more.
+        out = max(int(u.get("completion_tokens") or 0), int(u.get("total_tokens") or 0) - inp)
         cost = u.get("cost")
         cost = float(cost) if cost is not None else await self._price(model, inp, out)
         ledger.calls.append(Call(purpose, model, inp, out, cost, ms, ok))
@@ -229,6 +234,7 @@ class LLM:
             "messages": list(messages),
             "temperature": 0,
             "max_tokens": max_tokens,
+            **({"reasoning_effort": self.s.llm_reasoning_effort} if self.s.llm_reasoning_effort else {}),
             "response_format": {
                 "type": "json_schema",
                 "json_schema": {"name": schema.__name__, "schema": provider_schema(schema)},
@@ -264,7 +270,10 @@ class LLM:
         model = self.s.embedding_model
 
         async def one(chunk: list[str]) -> list[list[float]]:
-            data, ms = await self._post(base, key, "embeddings", {"model": model, "input": chunk})
+            body = {"model": model, "input": chunk}
+            if self.s.embed_dimensions:
+                body["dimensions"] = self.s.embed_dimensions
+            data, ms = await self._post(base, key, "embeddings", body)
             await self._record(ledger, purpose, model, data, ms)
             rows = sorted(data["data"], key=lambda d: d["index"])
             vecs = [r["embedding"] for r in rows]

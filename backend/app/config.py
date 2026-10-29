@@ -3,7 +3,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import AliasChoices, BaseModel, Field, SecretStr
+from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,11 +21,18 @@ class Settings(BaseSettings):
 
     # Any OpenAI-compatible endpoint. Embeddings may live elsewhere than chat.
     llm_base_url: str = "https://openrouter.ai/api/v1"
-    llm_api_key: SecretStr = Field(SecretStr(""), validation_alias=AliasChoices("LLM_API_KEY", "OPENROUTER_API_KEY"))
+    llm_api_key: SecretStr = SecretStr("")
     embed_base_url: str | None = None
     embed_api_key: SecretStr | None = None
     llm_max_concurrency: int = 8
     llm_timeout_s: float = 120
+    llm_max_attempts: int = 6
+    # Sent as `reasoning_effort` on chat calls when set (e.g. "low" for Gemini 3, which always thinks).
+    llm_reasoning_effort: str | None = None
+    # Sent as `dimensions` on embedding calls when set; lets 3072-dim models fit the 1536-dim column.
+    embed_dimensions: int | None = None
+    # USD per 1M tokens, [input, output], for providers whose responses carry no cost.
+    model_prices: dict[str, tuple[float, float]] = {}
 
     embedding_model: str = "openai/text-embedding-3-small"
     embedding_dim: int = 1536  # must match chunks.embedding in the migration
