@@ -274,8 +274,15 @@ class LLM:
             if self.s.embed_dimensions:
                 body["dimensions"] = self.s.embed_dimensions
             data, ms = await self._post(base, key, "embeddings", body)
+            if not (data.get("usage") or {}).get("prompt_tokens"):
+                # Gemini reports no usage for embeddings; estimate it (o200k tokenizer, so approximate)
+                # rather than record the call as free.
+                from .ingest.structure import count_tokens
+
+                data["usage"] = {"prompt_tokens": sum(count_tokens(t) for t in chunk)}
             await self._record(ledger, purpose, model, data, ms)
-            rows = sorted(data["data"], key=lambda d: d["index"])
+            # Gemini omits `index`; its rows come back in input order.
+            rows = sorted(data["data"], key=lambda d: d.get("index", 0)) if all("index" in d for d in data["data"])                 else data["data"]
             vecs = [r["embedding"] for r in rows]
             if len(vecs) != len(chunk) or any(len(v) != self.s.embedding_dim for v in vecs):
                 raise LLMError(f"embedding shape mismatch: expected {len(chunk)}x{self.s.embedding_dim}")
